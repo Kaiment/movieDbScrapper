@@ -1,6 +1,8 @@
 const rp = require('request-promise');
 const $ = require('cheerio');
 
+const uri = 'https://www.themoviedb.org';
+
 async function getActor(card) {
   const { data: actorName } = card.children[3].children[0].children[0];
   const { data: characterName } = card.children[5].children[0];
@@ -107,15 +109,32 @@ async function getGenre(html) {
   return genres;
 }
 
+async function getBackdrop(html) {
+  const imagesLinks = await $('#sub_menu_images > ul > li > a', html).toArray();
+  const hrefBackdrop = imagesLinks[0].attribs.href;
+  const backdropHtml = await rp(`${uri}${hrefBackdrop}`);
+  const backdrops = await $('a.image', backdropHtml).toArray();
+  return backdrops[0].attribs.href;
+}
+
 const singleMovieScrapper = {
   async getMediaInfo(url) {
     try {
       const html = await rp(url);
-      const mainInfo = await getMainInfo(html);
-      mainInfo.casting = await getCasting(html);
-      mainInfo.genres = await getGenre(html);
-      mainInfo.recommended = await getRecommended(html);
-      return mainInfo;
+      const promises = [];
+      promises.push(getMainInfo(html));
+      promises.push(getBackdrop(html));
+      promises.push(getCasting(html));
+      promises.push(getGenre(html));
+      promises.push(getRecommended(html));
+      mainInfo = await Promise.all(promises);
+      const movie = mainInfo[0];
+      movie.hrefBackdrop = mainInfo[1];
+      movie.casting = mainInfo[2];
+      movie.genres = mainInfo[3];
+      movie.recommended = mainInfo[4];
+      console.log(movie)
+      return movie;
     } catch (e) {
       if (e.statusCode === 404) {
         console.log('Movie not found');
