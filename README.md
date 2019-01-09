@@ -51,6 +51,8 @@ movieDB.getMovieInfoById(firstResult.id, 'en-US').then((res) => {
     //     recap:
     //     'After being held captive in an Afghan cave, billionaire engineer Tony Stark creates aunique weaponized suit of armor to fight evil.',
     //     score: 75,
+    //     hrefBackdrop:
+    //     'https://image.tmdb.org/t/p/original/ZQixhAZx6fH1VNafFXsqa1B8QI.jpg
     //     casting:
     //         { actors: [ [Object], [Object], [Object], [Object], [Object] ],
     //             crew:
@@ -87,6 +89,8 @@ movieDB.getTvInfoById(firstResult., 'en-US').then((res) => {
     //     recap:
     //     'Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night\'s Watch, is all that stands between the realms of men and icy horrors beyond.',
     //     score: 82,
+    //     hrefBackdrop:
+    //     'https://image.tmdb.org/t/p/original/gX8SYlnL9ZznfZwEH4KJUePBFUM.jpg'
     //     casting:
     //     { actors: [ [Object], [Object], [Object], [Object], [Object] ],
     //         crew: [ [Object], [Object] ] },
