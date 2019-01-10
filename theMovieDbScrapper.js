@@ -68,12 +68,11 @@ const mediaScrapper = {
   async getOnePageMedia(input, page, type) {
     const search = encodeURIComponent(input);
     const url = craftUrl(search, page, 'en-US');
-    const nbPages = await getNbPages(search, type, 'en-US');
-    if (page < 0 || page > nbPages) {
-      return [];
-    }
     const medias = await getMediaFromPage(url, type);
     return medias;
+  },
+  async getNbPages(search, type, language = 'en-US') {
+    return getNbPages(search, type, language);
   },
   async getPopulars(page = 1) {
     const html = await rp(`https://www.themoviedb.org/discover/movie?language=en-US&page=${page}`);
@@ -100,7 +99,5 @@ const mediaScrapper = {
     return ret;
   },
 };
-
-mediaScrapper.getPopulars(2);
 
 module.exports = mediaScrapper;
