@@ -75,6 +75,15 @@ const mediaScrapper = {
     const medias = await getMediaFromPage(url, type);
     return medias;
   },
+  async getPopulars(page = 1) {
+    const html = await rp(`https://www.themoviedb.org/discover/movie?language=en-US&page=${page}`);
+    const htmlParsed = await $('.results.flex.results_poster_card > .item.poster.card', html).toArray();
+    const mediasInfos = [];
+    for (let i = 0; i < htmlParsed.length; i += 1) {
+      mediasInfos.push(getMovieMainInfo(htmlParsed[i]));
+    }
+    console.log(mediasInfos);
+  },
   // Gets a specific movie's infos
   async getMovieInfoById(id, language) {
     const correctId = parseInt(id, 10);
@@ -91,5 +100,7 @@ const mediaScrapper = {
     return ret;
   },
 };
+
+mediaScrapper.getPopulars(2);
 
 module.exports = mediaScrapper;
