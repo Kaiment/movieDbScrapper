@@ -88,8 +88,8 @@ const mediaScrapper = {
   async getNbPages(search, type, language = 'en-US') {
     return getNbPages(search, type, language);
   },
-  async getPopulars(page = 1) {
-    const html = await rp(`https://www.themoviedb.org/discover/movie?language=en-US&page=${page}`);
+  async getPopulars(type, page = 1) {
+    const html = await rp(`https://www.themoviedb.org/discover/${type}?language=en-US&page=${page}`);
     const htmlParsed = await $('.results.flex.results_poster_card > .item.poster.card', html).toArray();
     const mediasInfos = [];
     for (let i = 0; i < htmlParsed.length; i += 1) {

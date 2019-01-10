@@ -1,6 +1,16 @@
 ```javascript
 const movieDB = require('moviedb-scrapper-hypertube');
 
+//movieDB.getNbPages(searchString, type, language)
+movieDB.getNbPages('iron man', 'movie', 'en-US') //returns the number of page for 'iron man' search
+//language is optional (default = 'en-US')
+
+//movieDB.getPopulars(type, page)
+movieDB.getPopulars('movie', 1) // Returns all recent movies, ordered by popularity
+movieDB.getPopulars('tv', 1) // Returns all recent tv series, ordered by popularity
+// page is optional (default = 1)
+
+// movieDB.getOnePageMedia(search, page, type) page is optinal (default = 1)
 movieDB.getOnePageMedia('iron man', 1, 'movie').then(res => {
     console.log(res);
     // RETURNS :
