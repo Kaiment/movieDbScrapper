@@ -24,10 +24,21 @@ async function getNbPages(search, type, language) {
   return 1;
 }
 
-function getMovieMainInfo(card) {
+async function getGenres(url) {
+  const html = await rp(`${uri}${url}`);
+  const genres = [];
+  const genre = await $('.genres.right_column > ul > li', html).toArray();
+  for (let i = 0; i < genre.length; i += 1) {
+    genres.push(genre[i].children[0].children[0].data);
+  }
+  return genres;
+}
+
+async function getMovieMainInfo(card) {
   const imgContent = card.children[1];
-  const info = card.children[3];
   const { href } = imgContent.children[1].attribs;
+  const genres = getGenres(href);
+  const info = card.children[3];
   const id = parseInt(href.split('/')[2].split('?')[0], 10);
   let hrefPoster = null;
   if (imgContent.children[1].children[1].attribs['data-srcset']) {
@@ -40,6 +51,7 @@ function getMovieMainInfo(card) {
   if (flex.children[3].children[0]) {
     releaseDate = parseInt(flex.children[3].children[0].data.split(' ')[2], 10);
   }
+  const genresReturn = await genres;
   return {
     title,
     id,
@@ -47,6 +59,7 @@ function getMovieMainInfo(card) {
     hrefPoster,
     releaseDate,
     score,
+    genresReturn,
   };
 }
 
@@ -57,7 +70,8 @@ async function getMediaFromPage(url, type) {
   for (let i = 0; i < htmlParsed.length; i += 1) {
     mediasInfos.push(getMovieMainInfo(htmlParsed[i]));
   }
-  return mediasInfos;
+  const ret = await Promise.all(mediasInfos);
+  return ret;
 }
 
 const mediaScrapper = {
@@ -81,7 +95,8 @@ const mediaScrapper = {
     for (let i = 0; i < htmlParsed.length; i += 1) {
       mediasInfos.push(getMovieMainInfo(htmlParsed[i]));
     }
-    console.log(mediasInfos);
+    const ret = await Promise.all(mediasInfos);
+    return ret;
   },
   // Gets a specific movie's infos
   async getMovieInfoById(id, language) {
