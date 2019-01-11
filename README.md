@@ -1,9 +1,6 @@
 ```javascript
 const movieDB = require('moviedb-scrapper-hypertube');
 
-
-// modif lol
-
 //movieDB.getNbPages(searchString, type, language)
 movieDB.getNbPages('iron man', 'movie', 'en-US') //returns the number of page for 'iron man' search
 //language is optional (default = 'en-US')
