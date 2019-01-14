@@ -115,8 +115,4 @@ const mediaScrapper = {
   },
 };
 
-mediaScrapper.getOnePageMedia('venom', 1, 'movie').then(res => {
-  console.log(res[0]);
-});
-
 module.exports = mediaScrapper;
