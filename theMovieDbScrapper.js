@@ -49,7 +49,7 @@ async function getMovieMainInfo(card) {
   const { title } = flex.children[1].attribs;
   let releaseDate = null;
   if (flex.children[3].children[0]) {
-    releaseDate = parseInt(flex.children[3].children[0].data.split(' ')[2], 10);
+    releaseDate = parseInt(flex.children[3].children[0].data.split(',')[1], 10);
   }
   const genresReturn = await genres;
   return {
@@ -114,5 +114,9 @@ const mediaScrapper = {
     return ret;
   },
 };
+
+mediaScrapper.getOnePageMedia('venom', 1, 'movie').then(res => {
+  console.log(res[0]);
+});
 
 module.exports = mediaScrapper;
