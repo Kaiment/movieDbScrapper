@@ -99,14 +99,14 @@ const mediaScrapper = {
     return ret;
   },
   // Gets a specific movie's infos
-  async getMovieInfoById(id, language) {
+  async getMovieInfoById(id, language ='en-US') {
     const correctId = parseInt(id, 10);
     const url = `${uri}/movie/${correctId}?language=${language}`;
     const ret = await singlePageScrapper.getMediaInfo(url);
     return ret;
   },
   // Gets a specific tv show's infos
-  async getTvInfoById(id, language) {
+  async getTvInfoById(id, language = 'en-US') {
     const correctId = parseInt(id, 10);
     const url = `${uri}/tv/${correctId}?language=${language}`;
     const ret = await singlePageScrapper.getMediaInfo(url);

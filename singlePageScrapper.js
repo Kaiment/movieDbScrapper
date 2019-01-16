@@ -63,9 +63,10 @@ async function getMainInfo(html) {
   const score = parseInt(promises[3]['0'].attribs['data-percent'], 10);
   const recap = promises[4]['0'].children[0].data;
   let duration = null;
-  if (promises[5]['3'].children[1]) {
-    duration = promises[5]['3'].children[1].data.trim();
-  }
+  if (promises[5]['3'].children[1].data.trim() === 'Runtime')
+    duration = promises[5]['3'].chidlren[1].data.trim();
+  else
+    duration = promises[5]['5'].children[1].data.trim();
   return {
     title,
     releaseDate,
@@ -133,7 +134,6 @@ const singleMovieScrapper = {
       movie.casting = mainInfo[2];
       movie.genres = mainInfo[3];
       movie.recommended = mainInfo[4];
-      console.log(movie)
       return movie;
     } catch (e) {
       if (e.statusCode === 404) {
