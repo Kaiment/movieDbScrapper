@@ -5,7 +5,9 @@ const uri = 'https://www.themoviedb.org';
 
 async function getActor(card) {
   const { data: actorName } = card.children[3].children[0].children[0];
-  const { data: characterName } = card.children[5].children[0];
+  let characterName = null;
+  if (card.children[5].children[0])
+    characterName = card.children[5].children[0].data;
   let hrefPhoto = null;
   if (card.children[1].children[1].attribs['data-srcset']) {
     [,, hrefPhoto] = card.children[1].children[1].attribs['data-srcset'].split(' ');
@@ -92,6 +94,8 @@ async function getRecommendedInfos(card) {
 // Get the data of the recommended movies
 async function getRecommended(html) {
   const recommended = $('.panel.recommendations.scroller > .scroller > .item.mini.backdrop.mini_card', html).toArray();
+  if (recommended.length < 1)
+    return [];
   const promises = [];
   for (let i = 0; i < recommended.length; i += 1) {
     promises.push(getRecommendedInfos(recommended[i]));
@@ -115,6 +119,8 @@ async function getBackdrop(html) {
   const hrefBackdrop = imagesLinks[0].attribs.href;
   const backdropHtml = await rp(`${uri}${hrefBackdrop}`);
   const backdrops = await $('a.image', backdropHtml).toArray();
+  if (backdrops.length < 1)
+    return null;
   return backdrops[0].attribs.href;
 }
 

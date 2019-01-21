@@ -79,7 +79,7 @@ const mediaScrapper = {
   // ex : getOnePageMedia('star wars', 1, 'movie') => returns all star wars movies from page 1
   // [ { title, id, href (url of the movie), hrefPoster (src of movie's poster), releaseDate,
   // score }, ...]
-  async getOnePageMedia(input, page, type) {
+  async getOnePageMedia(input, page = 1, type) {
     const search = encodeURIComponent(input);
     const url = craftUrl(search, page, 'en-US');
     const medias = await getMediaFromPage(url, type);
