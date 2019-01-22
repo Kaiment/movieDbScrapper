@@ -49,6 +49,19 @@ async function getCasting(html) {
   return casting;
 }
 
+function getDuration(infos) {
+  elements = infos.toArray()
+  let ret = '';
+  elements.forEach(e => {
+    if (e.children[0].children[0].children) {
+      if (e.children[0].children[0].children[0].data === 'Runtime') {
+        ret = e.children[0].children[0].children[0].parent.parent.next.data.trim();
+      }
+    }
+  });
+  return ret;
+}
+
 // Get title, release date, poster image source, recap and score from the html
 async function getMainInfo(html) {
   let promises = [];
@@ -64,11 +77,7 @@ async function getMainInfo(html) {
   const releaseDate = parseInt(promises[2]['0'].children[0].data.substr(1).slice(0, -1), 10);
   const score = parseInt(promises[3]['0'].attribs['data-percent'], 10);
   const recap = promises[4]['0'].children[0].data;
-  let duration = null;
-  if (promises[5]['3'].children[1].data.trim() === 'Runtime')
-    duration = promises[5]['3'].chidlren[1].data.trim();
-  else
-    duration = promises[5]['5'].children[1].data.trim();
+  const duration = getDuration(promises[5]);
   return {
     title,
     releaseDate,

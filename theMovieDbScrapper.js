@@ -85,6 +85,11 @@ const mediaScrapper = {
     const medias = await getMediaFromPage(url, type);
     return medias;
   },
+  async getNbPagesPopulars(type = 'movie') {
+    const html = await rp(`https://www.themoviedb.org/discover/${type}?language=en-US&page=1`);
+    const links = await $('.pagination > a', html);
+    return parseInt(links['7'].children[0].data, 10);
+  },
   async getNbPages(search, type, language = 'en-US') {
     return getNbPages(search, type, language);
   },
