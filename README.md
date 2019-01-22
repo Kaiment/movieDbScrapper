@@ -4,6 +4,7 @@ const movieDB = require('moviedb-scrapper-hypertube');
 //movieDB.getNbPages(searchString, type, language)
 movieDB.getNbPages('iron man', 'movie', 'en-US') //returns the number of page for 'iron man' search
 //language is optional (default = 'en-US')
+movieDB.getNbPagesPopulars('movie')
 
 //movieDB.getPopulars(type, page)
 movieDB.getPopulars('movie', 1) // Returns all recent movies, ordered by popularity
