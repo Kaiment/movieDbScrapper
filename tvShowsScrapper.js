@@ -39,8 +39,7 @@ async function getSeasons(url) {
     seasons = Promise.all(seasons);
     return seasons;
   } catch (e) {
-    console.log(e);
-    return null;
+    throw e;
   }
 }
 
@@ -78,8 +77,7 @@ const tvShowsScrapper = {
       const episodes = await Promise.all(promises);
       return episodes;
     } catch (e) {
-      console.log(e);
-      return null;
+      throw e;
     }
   },
   async getShowAllEpisodes(url) {
@@ -98,8 +96,7 @@ const tvShowsScrapper = {
       }
       return seasons;
     } catch (e) {
-      console.log(e);
-      return null;
+      throw e;
     }
   },
 };

@@ -152,11 +152,10 @@ const singleMovieScrapper = {
       return movie;
     } catch (e) {
       if (e.statusCode === 404) {
-        console.log('Movie not found');
+        throw new Error('Movie not found');
       } else {
-        console.log(e);
+        throw e;
       }
-      return null;
     }
   },
 };
