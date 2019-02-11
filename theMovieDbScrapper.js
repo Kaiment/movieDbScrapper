@@ -6,8 +6,12 @@ const tvShowsScrapper = require('./tvShowsScrapper.js');
 
 const uri = 'https://www.themoviedb.org';
 
-function craftUrl(search, page, language) {
-  return `${uri}/search?query=${search}&page=${page}&language=${language}`;
+function craftUrl(search, page, language, type) {
+  let typeUrl = ''
+  if (page > 1) {
+    typeUrl = `/${type}`;
+  }
+  return `${uri}/search${typeUrl}?query=${search}&page=${page}&language=${language}`;
 }
 
 async function getNbPages(search, type, language) {
@@ -81,7 +85,7 @@ const mediaScrapper = {
   // score }, ...]
   async getOnePageMedia(input, page = 1, type) {
     const search = encodeURIComponent(input);
-    const url = craftUrl(search, page, 'en-US');
+    const url = craftUrl(search, page, 'en-US', type);
     const medias = await getMediaFromPage(url, type);
     return medias;
   },
