@@ -65,14 +65,14 @@ function getDuration(infos) {
 // Get title, release date, poster image source, recap and score from the html
 async function getMainInfo(html) {
   let promises = [];
-  promises.push($('.image_content > img', html));
+  promises.push($('.image_content', html));
   promises.push($('.title > span > a > h2', html));
   promises.push($('.title > span > span', html));
   promises.push($('.user_score_chart', html));
   promises.push($('.overview > p', html));
   promises.push($('.facts.left_column > p', html));
   promises = await Promise.all(promises);
-  const hrefPoster = `https://image.tmdb.org/t/p/w1280/${promises[0]['0'].attribs.src.split('/')[6]}`;
+  const hrefPoster = promises[0]['0'].children[1].attribs['data-srcset'].split(' ')[2] ? `https://image.tmdb.org/t/p/w1280/${promises[0]['0'].children[1].attribs['data-srcset'].split(' ')[2]}` : '';
   const title = promises[1]['0'].children[0].data;
   const releaseDate = parseInt(promises[2]['0'].children[0].data.substr(1).slice(0, -1), 10);
   const score = parseInt(promises[3]['0'].attribs['data-percent'], 10);
