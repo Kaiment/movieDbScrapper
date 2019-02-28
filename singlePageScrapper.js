@@ -72,7 +72,7 @@ async function getMainInfo(html) {
   promises.push($('.overview > p', html));
   promises.push($('.facts.left_column > p', html));
   promises = await Promise.all(promises);
-  const hrefPoster = promises[0]['0'].children[1].attribs['data-srcset'].split(' ')[2] ? `https://image.tmdb.org/t/p/w1280/${promises[0]['0'].children[1].attribs['data-srcset'].split(' ')[2]}` : '';
+  const hrefPoster = promises[0]['0'].children[1].attribs['data-srcset'].split(' ')[2] ? promises[0]['0'].children[1].attribs['data-srcset'].split(' ')[2] : '';
   const title = promises[1]['0'].children[0].data;
   const releaseDate = parseInt(promises[2]['0'].children[0].data.substr(1).slice(0, -1), 10);
   const score = parseInt(promises[3]['0'].attribs['data-percent'], 10);
